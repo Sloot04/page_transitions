@@ -56,8 +56,11 @@ class _MyButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(context, _rutaPag2(transition));
       },
-      child: Text('$nombre'),
-      style: ButtonStyle(),
+      child: Text('$nombre', style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.w300),),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.green),
+        fixedSize: MaterialStateProperty.all(Size(190.0, 40.0))
+      ),
     );
   }
 
