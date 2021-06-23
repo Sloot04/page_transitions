@@ -11,7 +11,14 @@ class Pagina2Page extends StatelessWidget {
       ),
       backgroundColor: Colors.green,
       body: Center(
-        child: Text('Página 2'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Página 2', style:TextStyle(fontSize: 30, fontWeight: FontWeight.w800) ,),
+            SizedBox(height: 5.0,),
+            Text('Slide Transition', style:TextStyle(fontSize: 25, fontWeight: FontWeight.w300) ,)
+          ],
+        ),
      ),
    );
   }
