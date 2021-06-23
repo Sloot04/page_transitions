@@ -1,149 +1,107 @@
 import 'package:flutter/material.dart';
 import 'package:transicion_app/pages/pagina2_page.dart';
-import 'package:transicion_app/pages/pagina3_page.dart';
-import 'package:transicion_app/pages/pagina4_page.dart';
 
 class Pagina1Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Página 1'),
-      ),
-      drawer: _Pages(),
-      body: Center(
-        child: Text('Página 1'),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+        backgroundColor: Colors.green,
+          title: Text('Página 1'),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _MyButton(
+                transition: 1,
+                nombre: 'Slide transition',
+              ),
+              SizedBox(height: 20.0),
+              _MyButton(
+                transition: 2,
+                nombre: 'Scale transition',
+              ),
+              SizedBox(height: 20.0),
+              _MyButton(
+                transition: 3,
+                nombre: 'Rotation transition',
+              ),
+              SizedBox(height: 20.0),
+              _MyButton(
+                transition: 4,
+                nombre: 'Fade transition',
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-class _Pages extends StatelessWidget {
+class _MyButton extends StatelessWidget {
+  final int transition;
+  final String nombre;
+  _MyButton({
+    required this.transition,
+    required this.nombre,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Container(
-        child: Column(
-          children: [
-            SafeArea(
-                child: Text(
-              'Page transitions',
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w700),
-            )),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              width: double.infinity,
-              height: 2.0,
-              color: Colors.grey,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, _rutaPag2());
-                    },
-                    child: Text(
-                      'Página 2',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w300, fontSize: 20.0),
-                    )),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  width: double.infinity,
-                  height: 1.0,
-                  color: Colors.grey,
-                ),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, _rutaPag3());
-                    },
-                    child: Text(
-                      'Página 3',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w300, fontSize: 20.0),
-                    )),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  width: double.infinity,
-                  height: 1.0,
-                  color: Colors.grey,
-                ),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, _rutaPag4());
-                    },
-                    child: Text(
-                      'Página 4',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w300, fontSize: 20.0),
-                    )),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  width: double.infinity,
-                  height: 1.0,
-                  color: Colors.grey,
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(context, _rutaPag2(transition));
+      },
+      child: Text('$nombre'),
+      style: ButtonStyle(),
     );
   }
 
-  Route _rutaPag3() {
-    return PageRouteBuilder(
-        pageBuilder: (BuildContext context, Animation<double> animation,
-                Animation<double> secondaryAnimation) =>
-            Pagina3Page(),
-        transitionDuration: Duration(milliseconds: 300),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final curvedAnimation =
-              CurvedAnimation(parent: animation, curve: Curves.easeInOut);
-          return ScaleTransition(
-              child: child,
-              scale:
-                  Tween<double>(begin: 0.0, end: 1.0).animate(curvedAnimation));
-        });
-  }
-
-  Route _rutaPag4() {
-    return PageRouteBuilder(
-        pageBuilder: (BuildContext context, Animation<double> animation,
-                Animation<double> secondaryAnimation) =>
-            Pagina4Page(),
-        transitionDuration: Duration(seconds: 2),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final curvedAnimation =
-              CurvedAnimation(parent: animation, curve: Curves.easeInOut);
-
-          return RotationTransition(
-            child: child,
-            turns: Tween<double>(begin: 0.0, end: 1.0).animate(curvedAnimation),
-          );
-        });
-  }
-
-  Route _rutaPag2() {
+  Route _rutaPag2(int transition) {
     return PageRouteBuilder(
       pageBuilder: (BuildContext context, Animation<double> animation,
               Animation<double> secondaryAnimation) =>
-          Pagina2Page(),
-      transitionDuration: Duration(milliseconds: 300),
+          Pagina2Page(nombre),
+      transitionDuration: Duration(milliseconds: 800),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         final curvedAnimation =
             CurvedAnimation(parent: animation, curve: Curves.easeInOut);
 
-        return SlideTransition(
-          position: Tween<Offset>(begin: Offset(0.5, 1.0), end: Offset.zero)
-              .animate(curvedAnimation),
-          child: child,
-        );
+        switch (transition) {
+          case 1:
+            return SlideTransition(
+              position: Tween<Offset>(begin: Offset(0.5, 1.0), end: Offset.zero)
+                  .animate(curvedAnimation),
+              child: child,
+            );
+          case 2:
+            return ScaleTransition(
+                child: child,
+                scale: Tween<double>(begin: 0.0, end: 1.0)
+                    .animate(curvedAnimation));
+          case 3:
+            return RotationTransition(
+              child: child,
+              turns:
+                  Tween<double>(begin: 0.0, end: 1.0).animate(curvedAnimation),
+            );
+          case 4:
+            return FadeTransition(
+              opacity:
+                  Tween<double>(begin: 0.0, end: 1.0).animate(curvedAnimation),
+              child: child,
+            );
+          default:
+            return SlideTransition(
+              position: Tween<Offset>(begin: Offset(0.5, 1.0), end: Offset.zero)
+                  .animate(curvedAnimation),
+              child: child,
+            );
+        }
       },
     );
   }
